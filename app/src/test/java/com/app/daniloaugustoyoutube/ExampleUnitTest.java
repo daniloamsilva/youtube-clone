@@ -1,4 +1,4 @@
-package com.app.youtube;
+package com.app.daniloaugustoyoutube;
 
 import org.junit.Test;
 
