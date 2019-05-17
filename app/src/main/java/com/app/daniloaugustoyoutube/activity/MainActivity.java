@@ -17,9 +17,7 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
-
-    private static final String GOOGLE_API_KEY = "AIzaSyBtSmK-ixd68-6ud46pG2dtLY1BedE3H0w";
+    public class MainActivity extends AppCompatActivity {
 
     // Widgets
     private RecyclerView recyclerVideos;
