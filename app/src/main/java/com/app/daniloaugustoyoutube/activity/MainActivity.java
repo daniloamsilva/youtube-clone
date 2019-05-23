@@ -100,6 +100,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Resultado> call, Response<Resultado> response) {
                 Log.d("resultado", "onResponse: " + response);
+                if (response.isSuccessful()){
+                    Resultado resultado = response.body();
+                    Log.d("resultado", "onResponse: " + resultado.regionCode);
+                }
             }
 
             @Override
