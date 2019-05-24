@@ -15,6 +15,7 @@ import com.app.daniloaugustoyoutube.adapter.AdapterVideo;
 import com.app.daniloaugustoyoutube.api.YoutubeService;
 import com.app.daniloaugustoyoutube.helper.RetrofitConfig;
 import com.app.daniloaugustoyoutube.helper.YoutubeConfig;
+import com.app.daniloaugustoyoutube.model.Item;
 import com.app.daniloaugustoyoutube.model.Resultado;
 import com.app.daniloaugustoyoutube.model.Video;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
@@ -33,7 +34,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerVideos;
     private MaterialSearchView searchView;
 
-    private List<Video> videos = new ArrayList<>();
+    private List<Item> videos = new ArrayList<>();
+    private Resultado resultado;
     private AdapterVideo adapterVideo;
 
     // Retrofit
@@ -56,12 +58,8 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitle("Youtube");
         setSupportActionBar(toolbar);
 
-        // Configuração RecyclerView
+        // Recupera vídeos
         recuperarVideos();
-        adapterVideo = new AdapterVideo(videos, this);
-        recyclerVideos.setHasFixedSize(true);
-        recyclerVideos.setLayoutManager(new LinearLayoutManager(this));
-        recyclerVideos.setAdapter(adapterVideo);
 
         // Configuração dos métodos para SearchView
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
@@ -101,8 +99,9 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<Resultado> call, Response<Resultado> response) {
                 Log.d("resultado", "onResponse: " + response);
                 if (response.isSuccessful()){
-                    Resultado resultado = response.body();
-                    Log.d("resultado", "onResponse: " + resultado.regionCode);
+                    resultado = response.body();
+                    videos = resultado.items;
+                    configurarRecyclerView();
                 }
             }
 
@@ -111,6 +110,13 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void configurarRecyclerView(){
+        adapterVideo = new AdapterVideo(videos, this);
+        recyclerVideos.setHasFixedSize(true);
+        recyclerVideos.setLayoutManager(new LinearLayoutManager(this));
+        recyclerVideos.setAdapter(adapterVideo);
     }
 
     @Override
