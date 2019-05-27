@@ -1,5 +1,6 @@
 package com.app.daniloaugustoyoutube.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,10 +10,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 
 import com.app.daniloaugustoyoutube.R;
 import com.app.daniloaugustoyoutube.adapter.AdapterVideo;
 import com.app.daniloaugustoyoutube.api.YoutubeService;
+import com.app.daniloaugustoyoutube.helper.RecyclerItemClickListener;
 import com.app.daniloaugustoyoutube.helper.RetrofitConfig;
 import com.app.daniloaugustoyoutube.helper.YoutubeConfig;
 import com.app.daniloaugustoyoutube.model.Item;
@@ -117,6 +121,33 @@ public class MainActivity extends AppCompatActivity {
         recyclerVideos.setHasFixedSize(true);
         recyclerVideos.setLayoutManager(new LinearLayoutManager(this));
         recyclerVideos.setAdapter(adapterVideo);
+
+        // Configuração do evento de clique
+        recyclerVideos.addOnItemTouchListener(new RecyclerItemClickListener(
+                this,
+                recyclerVideos,
+                new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Item video = videos.get(position);
+                        String idVideo = video.id.videoId;
+
+                        Intent i = new Intent(MainActivity.this, PlayerActivity.class);
+                        i.putExtra(idVideo, idVideo);
+                        startActivity(i);
+                    }
+
+                    @Override
+                    public void onLongItemClick(View view, int position) {
+
+                    }
+
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    }
+                }
+        ));
     }
 
     @Override
