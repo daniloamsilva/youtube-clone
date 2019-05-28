@@ -14,7 +14,8 @@ public interface YoutubeService {
             @Query("order") String order,
             @Query("maxResults") String maxResults,
             @Query("key") String key,
-            @Query("channelId") String channelId
+            @Query("channelId") String channelId,
+            @Query("q") String q
     );
 
 }
